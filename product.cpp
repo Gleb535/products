@@ -174,11 +174,11 @@ int main()
     product_list pl;
     pl.add_product(product(1, "Product1", 100, SLAY));
     pl.add_product(product(2, "Product2", 200, FSTAGE));
-    // pl.print_list();
+    pl.print_list();
     pl.add_product(product());
 
     pl.save_to_file("products.txt");
-    // pl.load_from_file("products.txt");
+    pl.load_from_file("products.txt");
 
     pl.print_list();
     return 0;
