@@ -65,6 +65,26 @@ public:
         g = plug;
     }
 
+    void get_prod_id(int &a)
+    {
+        a = id;
+    }
+
+    void get_prod_name(string &n)
+    {
+        n = name;
+    }
+
+    void get_prod_price(int &p)
+    {
+        p = price;
+    }
+
+    void get_prod_plug(plugs &g)
+    {
+        g = plug;
+    }
+
     // метод для получения id товара
     int get_id() const
     {
@@ -200,6 +220,7 @@ int main()
 {
 
     product_list pl;
+    /*
     int n;
     pl.add_product(product());
     system("clear");
@@ -224,15 +245,21 @@ int main()
         printf("Error input\n");
         break;
     }
+        */
 
     pl.add_product(product(1, "Product1", 100, SLAY));
     pl.add_product(product(2, "Product2", 200, FSTAGE));
-    // pl.print_list();
-    // pl.add_product(product());
+    pl.print_list();
+    cout << "\n";
 
-    // pl.save_to_file("products.txt");
-    // pl.load_from_file("products.txt");
+    pl.add_product(product());
 
-    // pl.print_list();
+    pl.save_to_file("products.txt");
+    pl.load_from_file("products.txt");
+    cout << "\n";
+
+    pl.remove_product(1);
+
+    pl.print_list();
     return 0;
 }
