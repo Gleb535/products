@@ -36,6 +36,26 @@ public:
         plug = g;
     }
 
+    void set_id(int a)
+    {
+        id = a;
+    }
+
+    void set_name(string n)
+    {
+        name = n;
+    }
+
+    void set_price(int p)
+    {
+        price = p;
+    }
+
+    void set_plug(plugs g)
+    {
+        plug = g;
+    }
+
     // метод для получения значений товара
     void get_product(int &a, string &n, int &p, plugs &g)
     {
@@ -168,18 +188,51 @@ public:
     }
 };
 
+void add_new_product()
+{
+    system("clear");
+    product t;
+    int n;
+    cout << "Enter the name of product: ";
+}
+
 int main()
 {
 
     product_list pl;
+    int n;
+    pl.add_product(product());
+    system("clear");
+    cout << "Choose an action:" << endl;
+    cout << "0 - exit" << "\n"
+         << "1 - add product" << "\n"
+         << "2 - all products" << endl;
+    cout << "Your choice: ";
+    cin >> n;
+    switch (n)
+    {
+    case 0:
+        break;
+    case 1:
+        pl.add_product(product(1, "Product1", 100, SLAY));
+        break;
+    case 2:
+        system("clear");
+        pl.print_list();
+        break;
+    default:
+        printf("Error input\n");
+        break;
+    }
+
     pl.add_product(product(1, "Product1", 100, SLAY));
     pl.add_product(product(2, "Product2", 200, FSTAGE));
-    pl.print_list();
-    pl.add_product(product());
+    // pl.print_list();
+    // pl.add_product(product());
 
-    pl.save_to_file("products.txt");
-    pl.load_from_file("products.txt");
+    // pl.save_to_file("products.txt");
+    // pl.load_from_file("products.txt");
 
-    pl.print_list();
+    // pl.print_list();
     return 0;
 }
