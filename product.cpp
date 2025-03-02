@@ -137,26 +137,78 @@ public:
         }
     }
 
+    // Функция для вставки нового узла в заданную позицию
+    node *insertAtPos(node *head, int pos, node new_data)
+    {
+
+        // Создаем новый узел
+        node *new_node = new node(new_data);
+
+        // Вставка в начало
+        if (pos == 1)
+        {
+            new_node->next = head;
+
+            // Если связанный список не пуст, устанавливаем prev головы на новый узел
+            if (head != NULL)
+                head->prev = new_node;
+
+            // Устанавливаем новый узел как голову связанного списка
+            head = new_node;
+            return head;
+        }
+
+        node *curr = head;
+        // Перемещаемся по списку, чтобы найти узел перед точкой вставки
+        for (int i = 1; i < pos - 1 && curr != NULL; ++i)
+        {
+            curr = curr->next;
+        }
+
+        // Если позиция вне границ
+        if (curr == NULL)
+        {
+            cout << "Позиция вне границ." << endl;
+            delete new_node;
+            return head;
+        }
+
+        // Устанавливаем prev нового узла на текущий
+        new_node->prev = curr;
+
+        // Устанавливаем next нового узла на следующий от текущего
+        new_node->next = curr->next;
+
+        // Обновляем next текущего узла на новый узел
+        curr->next = new_node;
+
+        // Если новый узел не последний, обновляем prev следующего узла на новый узел
+        if (new_node->next != NULL)
+            new_node->next->prev = new_node;
+
+        // Возвращаем голову двусвязного списка
+        return head;
+    }
     // метод удаления товара из списка по id
     void remove_product(int id)
     {
-        node *current = head;
-        while (current)
+        node *curr = head;
+        while (curr)
         {
-            if (current->tovar.get_id() == id)
+            if (curr->tovar.get_id() == id)
             {
-                if (current->prev)
-                    current->prev->next = current->next;
-                if (current->next)
-                    current->next->prev = current->prev;
-                if (current == head)
-                    head = current->next;
-                if (current == tail)
-                    tail = current->prev;
-                delete current;
+                if (curr->prev)
+                    curr->prev->next = curr->next;
+                if (curr->next)
+                    curr->next->prev = curr->prev;
+                if (curr == head)
+                    head = curr->next;
+                if (curr == tail)
+                    tail = curr->prev;
+                delete curr;
                 break;
             }
-            current = current->next;
+            curr = curr->next;
         }
     }
 
@@ -220,32 +272,6 @@ int main()
 {
 
     product_list pl;
-    /*
-    int n;
-    pl.add_product(product());
-    system("clear");
-    cout << "Choose an action:" << endl;
-    cout << "0 - exit" << "\n"
-         << "1 - add product" << "\n"
-         << "2 - all products" << endl;
-    cout << "Your choice: ";
-    cin >> n;
-    switch (n)
-    {
-    case 0:
-        break;
-    case 1:
-        pl.add_product(product(1, "Product1", 100, SLAY));
-        break;
-    case 2:
-        system("clear");
-        pl.print_list();
-        break;
-    default:
-        printf("Error input\n");
-        break;
-    }
-        */
 
     pl.add_product(product(1, "Product1", 100, SLAY));
     pl.add_product(product(2, "Product2", 200, FSTAGE));
