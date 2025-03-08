@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <tuple>
 
 using namespace std;
 
@@ -116,6 +117,34 @@ class product_list
 private:
     node *head;
     node *tail;
+
+    node *partition(node *low, node *high)
+    {
+        int pivot = high->tovar.get_id();
+        node *i = low->prev;
+
+        for (node *j = low; j != high; j = j->next)
+        {
+            if (j->tovar.get_id() <= pivot)
+            {
+                i = (i == nullptr) ? low : i->next;
+                swap(i->tovar, j->tovar);
+            }
+        }
+        i = (i == nullptr) ? low : i->next;
+        swap(i->tovar, high->tovar);
+        return i;
+    }
+
+    void quickSort(node *low, node *high)
+    {
+        if (high != nullptr && low != high && low != high->next)
+        {
+            node *pi = partition(low, high);
+            quickSort(low, pi->prev);
+            quickSort(pi->next, high);
+        }
+    }
 
 public:
     // конструктор
