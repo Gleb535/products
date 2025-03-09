@@ -120,29 +120,29 @@ private:
 
     node *partition(node *low, node *high)
     {
-        int pivot = high->tovar.get_id();
-        node *i = low->prev;
+        int pivot = high->tovar.get_id(); // Опорный элемент для разбиения списка
+        node *i = low->prev;              // Указатель на элемент, который будет разделять список на две части
 
         for (node *j = low; j != high; j = j->next)
-        {
+        { // Перебираем элементы списка от low до high
             if (j->tovar.get_id() <= pivot)
-            {
-                i = (i == nullptr) ? low : i->next;
-                swap(i->tovar, j->tovar);
+            {                                       // Если текущий элемент меньше или равен опорному
+                i = (i == nullptr) ? low : i->next; // Перемещаем указатель i на следующую позицию
+                swap(i->tovar, j->tovar);           // Меняем местами элементы i и j
             }
         }
-        i = (i == nullptr) ? low : i->next;
-        swap(i->tovar, high->tovar);
-        return i;
+        i = (i == nullptr) ? low : i->next; // После завершения цикла перемещаем i на следующую позицию
+        swap(i->tovar, high->tovar);        // Меняем местами элементы i и high
+        return i;                           // Возвращаем указатель на элемент i, который является разделителем между двумя частями списка
     }
 
     void quickSort(node *low, node *high)
     {
         if (high != nullptr && low != high && low != high->next)
-        {
-            node *pi = partition(low, high);
-            quickSort(low, pi->prev);
-            quickSort(pi->next, high);
+        {                                    // Проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
+            node *pi = partition(low, high); // Разбиваем список на две части с помощью метода partition
+            quickSort(low, pi->prev);        // Рекурсивно сортируем левую часть списка
+            quickSort(pi->next, high);       // Рекурсивно сортируем правую часть списка
         }
     }
 
