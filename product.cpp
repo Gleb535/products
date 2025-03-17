@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <tuple>
+#include <vector>
 
 using namespace std;
 
@@ -22,11 +23,14 @@ class product
     plugs plug;       // поставщик
 
 public:
-    // товар по умолчанию
+    // конструктор без параметров (по умолчанию)
     product() : id(0), name("noname"), price(0), plug(SLAY) {}
 
     // параметризованный конструктор
     product(int a, string n, int p, plugs g) : id(a), name(n), price(p), plug(g) {}
+
+    // конструктор копирования
+    product(const product &other) : id(other.id), name(other.name), price(other.price), plug(other.plug) {}
 
     // метод для установки значений товара
     void set_product(int a, string n, int p, plugs g)
@@ -147,9 +151,28 @@ private:
     }
 
 public:
-    // конструктор
+    // конструктор по умолчанию
     product_list() : head(NULL), tail(NULL) {}
 
+    // конструктор копирования
+    product_list(const product_list &other) : head(nullptr), tail(nullptr)
+    {
+        node *current = other.head;
+        while (current)
+        {
+            add_product(current->tovar);
+            current = current->next;
+        }
+    }
+
+    // конструктор перемещения
+    /*
+    product_list(product_list &&other) noexcept : head(other.head), tail(other.tail)
+    {
+        other.head = nullptr;
+        other.tail = nullptr;
+    }
+    */
     // метод добавления товара в список
     void add_product(const product &new_product)
     {
@@ -288,14 +311,6 @@ public:
         }
     }
 };
-
-void add_new_product()
-{
-    system("clear");
-    product t;
-    int n;
-    cout << "Enter the name of product: ";
-}
 
 int main()
 {
