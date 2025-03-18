@@ -96,6 +96,17 @@ public:
         return id;
     }
 
+    // метод для получения цены
+    int get_price() const
+    {
+        return price;
+    }
+
+    int get_plug() const
+    {
+        return plug;
+    }
+
     // метод вывода краткой информации о товаре
     void print_product() const
     {
@@ -122,7 +133,8 @@ private:
     node *head;
     node *tail;
 
-    node *partition(node *low, node *high)
+    // сортировка по id
+    node *partition_id(node *low, node *high)
     {
         int pivot = high->tovar.get_id(); // опорный элемент для разбиения списка
         node *i = low->prev;              // указатель на элемент, который будет разделять список на две части
@@ -140,13 +152,71 @@ private:
         return i;                           // возвращаем указатель на элемент i, который является разделителем между двумя частями списка
     }
 
-    void quickSort(node *low, node *high)
+    void quickSort_by_id(node *low, node *high)
     {
         if (high != nullptr && low != high && low != high->next)
-        {                                    // проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
-            node *pi = partition(low, high); // разбиваем список на две части с помощью метода partition
-            quickSort(low, pi->prev);        // рекурсивно сортируем левую часть списка
-            quickSort(pi->next, high);       // рекурсивно сортируем правую часть списка
+        {                                       // проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
+            node *pi = partition_id(low, high); // разбиваем список на две части с помощью метода partition
+            quickSort_by_id(low, pi->prev);     // рекурсивно сортируем левую часть списка
+            quickSort_by_id(pi->next, high);    // рекурсивно сортируем правую часть списка
+        }
+    }
+
+    // сортировка по цене
+    node *partition_price(node *low, node *high)
+    {
+        int pivot = high->tovar.get_price(); // опорный элемент для разбиения списка
+        node *i = low->prev;                 // указатель на элемент, который будет разделять список на две части
+
+        for (node *j = low; j != high; j = j->next)
+        { // перебор элементов списка от low до high
+            if (j->tovar.get_price() <= pivot)
+            {                                       // если текущий элемент меньше или равен опорному
+                i = (i == nullptr) ? low : i->next; // перемещаем указатель i на следующую позицию
+                swap(i->tovar, j->tovar);           // меняем местами элементы i и j
+            }
+        }
+        i = (i == nullptr) ? low : i->next; // после завершения цикла перемещаем i на следующую позицию
+        swap(i->tovar, high->tovar);        // меняем местами элементы i и high
+        return i;                           // возвращаем указатель на элемент i, который является разделителем между двумя частями списка
+    }
+
+    void quickSort_by_price(node *low, node *high)
+    {
+        if (high != nullptr && low != high && low != high->next)
+        {                                          // проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
+            node *pi = partition_price(low, high); // разбиваем список на две части с помощью метода partition
+            quickSort_by_price(low, pi->prev);     // рекурсивно сортируем левую часть списка
+            quickSort_by_price(pi->next, high);    // рекурсивно сортируем правую часть списка
+        }
+    }
+
+    // сортировка по поставщику
+    node *partition_plug(node *low, node *high)
+    {
+        int pivot = high->tovar.get_plug(); // опорный элемент для разбиения списка
+        node *i = low->prev;                // указатель на элемент, который будет разделять список на две части
+
+        for (node *j = low; j != high; j = j->next)
+        { // перебор элементов списка от low до high
+            if (j->tovar.get_plug() <= pivot)
+            {                                       // если текущий элемент меньше или равен опорному
+                i = (i == nullptr) ? low : i->next; // перемещаем указатель i на следующую позицию
+                swap(i->tovar, j->tovar);           // меняем местами элементы i и j
+            }
+        }
+        i = (i == nullptr) ? low : i->next; // после завершения цикла перемещаем i на следующую позицию
+        swap(i->tovar, high->tovar);        // меняем местами элементы i и high
+        return i;                           // возвращаем указатель на элемент i, который является разделителем между двумя частями списка
+    }
+
+    void quickSort_by_plug(node *low, node *high)
+    {
+        if (high != nullptr && low != high && low != high->next)
+        {                                         // проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
+            node *pi = partition_plug(low, high); // разбиваем список на две части с помощью метода partition
+            quickSort_by_plug(low, pi->prev);     // рекурсивно сортируем левую часть списка
+            quickSort_by_plug(pi->next, high);    // рекурсивно сортируем правую часть списка
         }
     }
 
@@ -331,5 +401,6 @@ int main()
     pl.remove_product(1);
 
     pl.print_list();
+
     return 0;
 }
