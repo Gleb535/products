@@ -234,15 +234,13 @@ public:
             current = current->next;
         }
     }
-
     // конструктор перемещения
-    /*
     product_list(product_list &&other) noexcept : head(other.head), tail(other.tail)
     {
         other.head = nullptr;
         other.tail = nullptr;
     }
-    */
+
     // метод добавления товара в список
     void add_product(const product &new_product)
     {
