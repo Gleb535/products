@@ -235,7 +235,7 @@ public:
         }
     }
     // конструктор перемещения
-    product_list(product_list &&other) noexcept : head(other.head), tail(other.tail)
+    product_list(product_list &&other) : head(other.head), tail(other.tail)
     {
         other.head = nullptr;
         other.tail = nullptr;
@@ -380,7 +380,7 @@ public:
     }
 
     // метод отображения списка по фильтру id
-    void print_list_by_id(int id) const noexcept
+    void print_list_by_id(int id) const
     {
         node *current = head;
         while (current)
@@ -394,7 +394,7 @@ public:
     }
 
     // метод отображения списка по фильтру цены
-    void print_list_by_price(int price) const noexcept
+    void print_list_by_price(int price) const
     {
         node *current = head;
         while (current)
@@ -408,7 +408,7 @@ public:
     }
 
     // метод отображения списка по фильтру поставщика
-    void print_list_by_plug(plugs plug) const noexcept
+    void print_list_by_plug(plugs plug) const
     {
         node *current = head;
         while (current)
