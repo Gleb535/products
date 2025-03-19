@@ -378,6 +378,48 @@ public:
             current = current->next;
         }
     }
+
+    // метод отображения списка по фильтру id
+    void print_list_by_id(int id) const noexcept
+    {
+        node *current = head;
+        while (current)
+        {
+            if (current->tovar.get_id() == id)
+            {
+                current->tovar.print_product();
+            }
+            current = current->next;
+        }
+    }
+
+    // метод отображения списка по фильтру цены
+    void print_list_by_price(int price) const noexcept
+    {
+        node *current = head;
+        while (current)
+        {
+            if (current->tovar.get_price() == price)
+            {
+                current->tovar.print_product();
+            }
+            current = current->next;
+        }
+    }
+
+    // метод отображения списка по фильтру поставщика
+    void print_list_by_plug(plugs plug) const noexcept
+    {
+        node *current = head;
+        while (current)
+        {
+            if (current->tovar.get_plug() == plug)
+            {
+                current->tovar.print_product();
+            }
+            current = current->next;
+        }
+    }
 };
 
 int main()
@@ -399,6 +441,18 @@ int main()
     pl.remove_product(1);
 
     pl.print_list();
+    cout << "\n";
+    // Отображение товаров с определенным фильтром
+    cout << "Products with ID = 2:" << endl;
+    pl.print_list_by_id(2);
+    cout << "\n";
+
+    cout << "Products with Price = 100:" << endl;
+    pl.print_list_by_price(100);
+    cout << "\n";
+
+    cout << "Products with Plug = SLAY:" << endl;
+    pl.print_list_by_plug(SLAY);
 
     return 0;
 }
