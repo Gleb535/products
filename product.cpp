@@ -14,6 +14,8 @@ enum plugs
     BOB
 };
 
+// Функция для преобразования значения plug-ов в строку
+
 // класс товар
 class product
 {
@@ -107,10 +109,16 @@ public:
         return plug;
     }
 
-    // метод вывода краткой информации о товаре
+    // метод вывода информации о товаре
     void print_product() const
     {
         cout << "ID: " << id << ", Name: " << name << ", Price: " << price << ", Plug: " << plug << endl;
+    }
+
+    // метод вывода краткой информации о товаре
+    void short_print_product() const
+    {
+        cout << "ID: " << id << ", Name: " << name << endl;
     }
 };
 
@@ -231,7 +239,7 @@ public:
         while (current)
         {
             add_product(current->tovar);
-            current = current->next;
+            current = current->next; // переход к следующему
         }
     }
     // конструктор перемещения
@@ -374,8 +382,8 @@ public:
         node *current = head;
         while (current)
         {
-            current->tovar.print_product();
-            current = current->next;
+            current->tovar.print_product(); // вывод инфы товара
+            current = current->next;        // переходим к следующему
         }
     }
 
@@ -385,11 +393,11 @@ public:
         node *current = head;
         while (current)
         {
-            if (current->tovar.get_id() == id)
+            if (current->tovar.get_id() == id) // проверка на соответствию с фильтром
             {
-                current->tovar.print_product();
+                current->tovar.print_product(); // вывод инфы товара
             }
-            current = current->next;
+            current = current->next; // переходим к следующему
         }
     }
 
@@ -399,25 +407,25 @@ public:
         node *current = head;
         while (current)
         {
-            if (current->tovar.get_price() == price)
+            if (current->tovar.get_price() == price) // проверка на соответствию с фильтром
             {
-                current->tovar.print_product();
+                current->tovar.print_product(); // вывод инфы товара
             }
-            current = current->next;
+            current = current->next; // переходим к следующему
         }
     }
 
     // метод отображения списка по фильтру поставщика
     void print_list_by_plug(plugs plug) const
     {
-        node *current = head;
+        node *current = head; // идем по порядку
         while (current)
         {
-            if (current->tovar.get_plug() == plug)
+            if (current->tovar.get_plug() == plug) // проверка на соответствию с фильтром
             {
-                current->tovar.print_product();
+                current->tovar.print_product(); // вывод инфы товара
             }
-            current = current->next;
+            current = current->next; // переходим к следующему
         }
     }
 };
@@ -442,6 +450,7 @@ int main()
 
     pl.print_list();
     cout << "\n";
+
     // Отображение товаров с определенным фильтром
     cout << "Products with ID = 2:" << endl;
     pl.print_list_by_id(2);
