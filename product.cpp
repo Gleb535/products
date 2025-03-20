@@ -1,8 +1,6 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <tuple>
-#include <vector>
 
 using namespace std;
 
@@ -14,7 +12,7 @@ enum plugs
     BOB
 };
 
-// Функция для преобразования значения plug-ов в строку
+// функция для преобразования значения plug-ов в строку
 string plug_to_string(plugs plug)
 {
     switch (plug)
@@ -108,13 +106,11 @@ public:
         g = plug;
     }
 
-    // метод для получения id товара
     int get_id() const
     {
         return id;
     }
 
-    // метод для получения цены
     int get_price() const
     {
         return price;
@@ -158,6 +154,7 @@ private:
     node *tail;
 
     // сортировка по id
+
     node *partition_id(node *low, node *high)
     {
         int pivot = high->tovar.get_id(); // опорный элемент для разбиения списка
@@ -187,6 +184,7 @@ private:
     }
 
     // сортировка по цене
+
     node *partition_price(node *low, node *high)
     {
         int pivot = high->tovar.get_price(); // опорный элемент для разбиения списка
@@ -216,6 +214,7 @@ private:
     }
 
     // сортировка по поставщику
+
     node *partition_plug(node *low, node *high)
     {
         int pivot = high->tovar.get_plug(); // опорный элемент для разбиения списка
@@ -251,152 +250,150 @@ public:
     // конструктор копирования
     product_list(const product_list &other) : head(nullptr), tail(nullptr)
     {
-        node *current = other.head;
-        while (current)
+        node *current = other.head; // начинаем с головы другого списка
+        while (current)             // пока не достигнем конца списка
         {
-            add_product(current->tovar);
-            current = current->next; // переход к следующему
+            add_product(current->tovar); // добавляем товар из текущего узла в новый список
+            current = current->next;     // переход к следующему
         }
     }
     // конструктор перемещения
     product_list(product_list &&other) : head(other.head), tail(other.tail)
     {
-        other.head = nullptr;
-        other.tail = nullptr;
+        other.head = nullptr; // очищаем указатель на голову в исходном объекте
+        other.tail = nullptr; // очищаем указатель на хвост в исходном объекте
     }
 
     // метод добавления товара в список
     void add_product(const product &new_product)
     {
-        node *new_node = new node(new_product);
-        if (!head)
+        node *new_node = new node(new_product); // создаем новый узел, используя конструктор node
+        if (!head)                              // проверка пуст ли список (head == nullptr)
         {
-            head = tail = new_node;
+            head = tail = new_node; // если список пустой, новый узел становится и головой, и хвостом (начальная точка списка)
         }
         else
         {
-            tail->next = new_node;
-            new_node->prev = tail;
-            tail = new_node;
+            tail->next = new_node; // у текущего хвоста устанавливаем указатель на новый узел
+            new_node->prev = tail; // у нового узла устанавливаем указатель на предыдущий узел (хвост)
+
+            tail = new_node; // обновляем хвост списка, делая его текущим новым узлом
         }
     }
 
-    // Функция для вставки нового узла в заданную позицию
+    // функция для вставки нового узла в заданную позицию
     node *insertAtPos(node *head, int pos, node new_data)
     {
 
-        // Создаем новый узел
-        node *new_node = new node(new_data);
+        node *new_node = new node(new_data); // создаем новый узел
 
-        // Вставка в начало
-        if (pos == 1)
+        if (pos == 1) // вставка в начало
         {
             new_node->next = head;
 
-            // Если связанный список не пуст, устанавливаем prev головы на новый узел
+            // если список не пуст, устанавливаем prev головы на новый узел
             if (head != NULL)
                 head->prev = new_node;
 
-            // Устанавливаем новый узел как голову связанного списка
+            // устанавливаем новый узел как голову связанного списка
             head = new_node;
             return head;
         }
 
         node *curr = head;
-        // Перемещаемся по списку, чтобы найти узел перед точкой вставки
+        // перемещаемся по списку, чтоб найти узел перед позицией вставки
         for (int i = 1; i < pos - 1 && curr != NULL; ++i)
         {
             curr = curr->next;
         }
 
-        // Если позиция вне границ
+        // если позиция вне границ
         if (curr == NULL)
         {
-            cout << "Позиция вне границ." << endl;
             delete new_node;
             return head;
         }
 
-        // Устанавливаем prev нового узла на текущий
-        new_node->prev = curr;
+        new_node->prev = curr; // устанавливаем prev нового узла на текущий
 
-        // Устанавливаем next нового узла на следующий от текущего
-        new_node->next = curr->next;
+        new_node->next = curr->next; // устанавливаем next нового узла на следующий от текущего
 
-        // Обновляем next текущего узла на новый узел
-        curr->next = new_node;
+        curr->next = new_node; // обновляем next текущего узла на новый узел
 
-        // Если новый узел не последний, обновляем prev следующего узла на новый узел
+        // если новый узел не последний, обновляем prev следующего узла на новый узел
         if (new_node->next != NULL)
             new_node->next->prev = new_node;
 
-        // Возвращаем голову двусвязного списка
-        return head;
+        return head; // возвращаем голову двусвяз списка
     }
     // метод удаления товара из списка по id
     void remove_product(int id)
     {
-        node *curr = head;
-        while (curr)
+        node *current = head; // начинаем с головы списка
+        while (current)       // пока не достигнем конца списка
         {
-            if (curr->tovar.get_id() == id)
+            if (current->tovar.get_id() == id) // если найден товар с нужным id
             {
-                if (curr->prev)
-                    curr->prev->next = curr->next;
-                if (curr->next)
-                    curr->next->prev = curr->prev;
-                if (curr == head)
-                    head = curr->next;
-                if (curr == tail)
-                    tail = curr->prev;
-                delete curr;
-                break;
+                if (current->prev) // если есть предыдущий узел, обновляем его указатель на следующий узел
+                    current->prev->next = current->next;
+
+                if (current->next) // если есть следующий узел, обновляем его указатель на предыдущий узел
+                    current->next->prev = current->prev;
+
+                if (current == head) // если удаляемый узел был головой списка, обновляем голову
+                    head = current->next;
+
+                if (current == tail) // если удаляемый узел был хвостом списка, обновляем хвост
+                    tail = current->prev;
+
+                delete current; // удаляем текущий узел
+                break;          // выходим из цикла (товар найден и удален)
             }
-            curr = curr->next;
+            current = current->next; // переходим к следующему узлу
         }
     }
 
     // сохранение списка товаров в файл
     void save_to_file(const string &filename)
     {
-        ofstream file(filename);
-        node *current = head;
-        while (current)
+        ofstream file(filename); // открываем файл для записи
+        node *current = head;    // начинаем с головы списка
+        while (current)          // пока не достигнем конца списка
         {
             int id, price;
             string name;
             plugs plug;
-            current->tovar.get_product(id, name, price, plug);
-            file << id << " " << name << " " << price << " " << plug << endl;
-            current = current->next;
+            current->tovar.get_product(id, name, price, plug);                // получаем данные о товаре из текущего узла
+            file << id << " " << name << " " << price << " " << plug << endl; // записываем данные в файл
+            current = current->next;                                          // переходим к следующему узлу
         }
-        file.close();
+        file.close(); // закрываем файл после записи
     }
 
     // метод загрузки списка товаров из файла
     void load_from_file(const string &filename)
     {
-        ifstream file(filename);
-        while (!file.eof())
+        ifstream file(filename); // открываем файл для чтения
+        while (!file.eof())      // продолжаем до конца файла
         {
             int id, price;
             string name;
             int plug;
-            file >> id >> name >> price >> plug;
-            if (file)
+            file >> id >> name >> price >> plug; // читаем данные из файла
+            if (file)                            // если данные были успешно прочитаны
             {
-                product new_product(id, name, price, static_cast<plugs>(plug));
-                add_product(new_product);
+                product new_product(id, name, price, static_cast<plugs>(plug)); // создаем новый товар
+                add_product(new_product);                                       // добавляем товар в список
             }
         }
-        file.close();
+        file.close(); // закрываем файл после чтения
     }
 
     // вывод списка товаров
     void print_list() const
     {
-        node *current = head;
-        while (current)
+        node *current = head; // начинаем с головы списка
+        while (current)       // пока не достигнем конца списка
         {
             current->tovar.print_product(); // вывод инфы товара
             current = current->next;        // переходим к следующему
@@ -407,7 +404,7 @@ public:
     void print_list_by_id(int id) const
     {
         node *current = head;
-        while (current)
+        while (current) // пока не достигнут конец списка
         {
             if (current->tovar.get_id() == id) // проверка на соответствию с фильтром
             {
@@ -420,8 +417,8 @@ public:
     // метод отображения списка по фильтру цены
     void print_list_by_price(int price) const
     {
-        node *current = head;
-        while (current)
+        node *current = head; // начинаем с головы списка
+        while (current)       // пока не достигнем конца списка
         {
             if (current->tovar.get_price() == price) // проверка на соответствию с фильтром
             {
@@ -434,8 +431,8 @@ public:
     // метод отображения списка по фильтру поставщика
     void print_list_by_plug(plugs plug) const
     {
-        node *current = head; // идем по порядку
-        while (current)
+        node *current = head; // начинаем с головы списка
+        while (current)       // пока не достигнем конца списка
         {
             if (current->tovar.get_plug() == plug) // проверка на соответствию с фильтром
             {
@@ -467,7 +464,7 @@ int main()
     pl.print_list();
     cout << "\n";
 
-    // Отображение товаров с определенным фильтром
+    // товары по фильтру
     cout << "Products with ID = 2:" << endl;
     pl.print_list_by_id(2);
     cout << "\n";
