@@ -15,6 +15,22 @@ enum plugs
 };
 
 // Функция для преобразования значения plug-ов в строку
+string plug_to_string(plugs plug)
+{
+    switch (plug)
+    {
+    case SLAY:
+        return "SLAY";
+    case FSTAGE:
+        return "FST AGE";
+    case OLEG:
+        return "OLEG";
+    case BOB:
+        return "BOB";
+    default:
+        return "nah";
+    }
+}
 
 // класс товар
 class product
@@ -112,7 +128,7 @@ public:
     // метод вывода информации о товаре
     void print_product() const
     {
-        cout << "ID: " << id << ", Name: " << name << ", Price: " << price << ", Plug: " << plug << endl;
+        cout << "ID: " << id << ", Name: " << name << ", Price: " << price << ", Plug: " << plug_to_string(plug) << endl;
     }
 
     // метод вывода краткой информации о товаре
