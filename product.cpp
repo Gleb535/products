@@ -31,7 +31,7 @@ string plug_to_string(plugs plug)
 }
 
 // класс товар
-class product
+class Product
 {
     int id;           // id
     std::string name; // название товара
@@ -40,13 +40,15 @@ class product
 
 public:
     // конструктор без параметров (по умолчанию)
-    product() : id(0), name("noname"), price(0), plug(SLAY) {}
+    Product() : id(0), name("noname"), price(0), plug(SLAY)
+    {
+    }
 
     // параметризованный конструктор
-    product(int a, string n, int p, plugs g) : id(a), name(n), price(p), plug(g) {}
+    Product(int a, string n, int p, plugs g) : id(a), name(n), price(p), plug(g) {}
 
     // конструктор копирования
-    product(const product &other) : id(other.id), name(other.name), price(other.price), plug(other.plug) {}
+    Product(const Product &other) : id(other.id), name(other.name), price(other.price), plug(other.plug) {}
 
     // метод для установки значений товара
     void set_product(int a, string n, int p, plugs g)
@@ -135,32 +137,32 @@ public:
 };
 
 // класс узла для двусвязного списка
-class node
+class Node
 {
 public:
-    product tovar; // товар в узле
-    node *prev;    // указатель на предыдущий узел
-    node *next;    // указатель на следующий узел
+    Product tovar; // товар в узле
+    Node *prev;    // указатель на предыдущий узел
+    Node *next;    // указатель на следующий узел
 
     // конструктор
-    node(product new_tovar) : tovar(new_tovar), prev(NULL), next(NULL) {}
+    Node(Product new_tovar) : tovar(new_tovar), prev(NULL), next(NULL) {}
 };
 
 // двусвяз список
 class product_list
 {
 private:
-    node *head;
-    node *tail;
+    Node *head; // указатель на первый узел списка
+    Node *tail; // указатель на последний узел списка
 
     // сортировка по id
 
-    node *partition_id(node *low, node *high)
+    Node *partition_id(Node *low, Node *high)
     {
         int pivot = high->tovar.get_id(); // опорный элемент для разбиения списка
-        node *i = low->prev;              // указатель на элемент, который будет разделять список на две части
+        Node *i = low->prev;              // указатель на элемент, который будет разделять список на две части
 
-        for (node *j = low; j != high; j = j->next)
+        for (Node *j = low; j != high; j = j->next)
         { // перебор элементов списка от low до high
             if (j->tovar.get_id() <= pivot)
             {                                       // если текущий элемент меньше или равен опорному
@@ -173,11 +175,11 @@ private:
         return i;                           // возвращаем указатель на элемент i, который является разделителем между двумя частями списка
     }
 
-    void quickSort_by_id(node *low, node *high)
+    void quickSort_by_id(Node *low, Node *high)
     {
         if (high != nullptr && low != high && low != high->next)
         {                                       // проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
-            node *pi = partition_id(low, high); // разбиваем список на две части с помощью метода partition
+            Node *pi = partition_id(low, high); // разбиваем список на две части с помощью метода partition
             quickSort_by_id(low, pi->prev);     // рекурсивно сортируем левую часть списка
             quickSort_by_id(pi->next, high);    // рекурсивно сортируем правую часть списка
         }
@@ -185,12 +187,12 @@ private:
 
     // сортировка по цене
 
-    node *partition_price(node *low, node *high)
+    Node *partition_price(Node *low, Node *high)
     {
         int pivot = high->tovar.get_price(); // опорный элемент для разбиения списка
-        node *i = low->prev;                 // указатель на элемент, который будет разделять список на две части
+        Node *i = low->prev;                 // указатель на элемент, который будет разделять список на две части
 
-        for (node *j = low; j != high; j = j->next)
+        for (Node *j = low; j != high; j = j->next)
         { // перебор элементов списка от low до high
             if (j->tovar.get_price() <= pivot)
             {                                       // если текущий элемент меньше или равен опорному
@@ -203,11 +205,11 @@ private:
         return i;                           // возвращаем указатель на элемент i, который является разделителем между двумя частями списка
     }
 
-    void quickSort_by_price(node *low, node *high)
+    void quickSort_by_price(Node *low, Node *high)
     {
         if (high != nullptr && low != high && low != high->next)
         {                                          // проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
-            node *pi = partition_price(low, high); // разбиваем список на две части с помощью метода partition
+            Node *pi = partition_price(low, high); // разбиваем список на две части с помощью метода partition
             quickSort_by_price(low, pi->prev);     // рекурсивно сортируем левую часть списка
             quickSort_by_price(pi->next, high);    // рекурсивно сортируем правую часть списка
         }
@@ -215,12 +217,12 @@ private:
 
     // сортировка по поставщику
 
-    node *partition_plug(node *low, node *high)
+    Node *partition_plug(Node *low, Node *high)
     {
         int pivot = high->tovar.get_plug(); // опорный элемент для разбиения списка
-        node *i = low->prev;                // указатель на элемент, который будет разделять список на две части
+        Node *i = low->prev;                // указатель на элемент, который будет разделять список на две части
 
-        for (node *j = low; j != high; j = j->next)
+        for (Node *j = low; j != high; j = j->next)
         { // перебор элементов списка от low до high
             if (j->tovar.get_plug() <= pivot)
             {                                       // если текущий элемент меньше или равен опорному
@@ -233,11 +235,11 @@ private:
         return i;                           // возвращаем указатель на элемент i, который является разделителем между двумя частями списка
     }
 
-    void quickSort_by_plug(node *low, node *high)
+    void quickSort_by_plug(Node *low, Node *high)
     {
         if (high != nullptr && low != high && low != high->next)
         {                                         // проверяем, что high не равен nullptr, и low не равен high, и low не равен следующему элементу после high
-            node *pi = partition_plug(low, high); // разбиваем список на две части с помощью метода partition
+            Node *pi = partition_plug(low, high); // разбиваем список на две части с помощью метода partition
             quickSort_by_plug(low, pi->prev);     // рекурсивно сортируем левую часть списка
             quickSort_by_plug(pi->next, high);    // рекурсивно сортируем правую часть списка
         }
@@ -250,7 +252,7 @@ public:
     // конструктор копирования
     product_list(const product_list &other) : head(nullptr), tail(nullptr)
     {
-        node *current = other.head; // начинаем с головы другого списка
+        Node *current = other.head; // начинаем с головы другого списка
         while (current)             // пока не достигнем конца списка
         {
             add_product(current->tovar); // добавляем товар из текущего узла в новый список
@@ -264,10 +266,24 @@ public:
         other.tail = nullptr; // очищаем указатель на хвост в исходном объекте
     }
 
-    // метод добавления товара в список
-    void add_product(const product &new_product)
+    // перегруженный оператор сложения для добавления товара
+    product_list &operator+(const Product &product)
     {
-        node *new_node = new node(new_product); // создаем новый узел, используя конструктор node
+        add_product(product); // добавляем товар в список
+        return *this;         // возвращаем ссылку на текущий объект (для поддержания цепочки вызовов)
+    }
+
+    // перегруженный оператор вычетания для удаления товара по id
+    product_list &operator-(int id)
+    {
+        remove_product(id); // удаляем товар с указанным id из списка
+        return *this;       // возвращаем ссылку на текущий объект (для поддержания цепочки вызовов)
+    }
+
+    // метод добавления товара в список
+    void add_product(const Product &new_product)
+    {
+        Node *new_node = new Node(new_product); // создаем новый узел, используя конструктор node
         if (!head)                              // проверка пуст ли список (head == nullptr)
         {
             head = tail = new_node; // если список пустой, новый узел становится и головой, и хвостом (начальная точка списка)
@@ -282,10 +298,10 @@ public:
     }
 
     // функция для вставки нового узла в заданную позицию
-    node *insertAtPos(node *head, int pos, node new_data)
+    Node *insertAtPos(Node *head, int pos, Node new_data)
     {
 
-        node *new_node = new node(new_data); // создаем новый узел
+        Node *new_node = new Node(new_data); // создаем новый узел
 
         if (pos == 1) // вставка в начало
         {
@@ -300,7 +316,7 @@ public:
             return head;
         }
 
-        node *curr = head;
+        Node *curr = head;
         // перемещаемся по списку, чтоб найти узел перед позицией вставки
         for (int i = 1; i < pos - 1 && curr != NULL; ++i)
         {
@@ -329,7 +345,7 @@ public:
     // метод удаления товара из списка по id
     void remove_product(int id)
     {
-        node *current = head; // начинаем с головы списка
+        Node *current = head; // начинаем с головы списка
         while (current)       // пока не достигнем конца списка
         {
             if (current->tovar.get_id() == id) // если найден товар с нужным id
@@ -357,7 +373,7 @@ public:
     void save_to_file(const string &filename)
     {
         ofstream file(filename); // открываем файл для записи
-        node *current = head;    // начинаем с головы списка
+        Node *current = head;    // начинаем с головы списка
         while (current)          // пока не достигнем конца списка
         {
             int id, price;
@@ -382,7 +398,7 @@ public:
             file >> id >> name >> price >> plug; // читаем данные из файла
             if (file)                            // если данные были успешно прочитаны
             {
-                product new_product(id, name, price, static_cast<plugs>(plug)); // создаем новый товар
+                Product new_product(id, name, price, static_cast<plugs>(plug)); // создаем новый товар
                 add_product(new_product);                                       // добавляем товар в список
             }
         }
@@ -392,7 +408,7 @@ public:
     // вывод списка товаров
     void print_list() const
     {
-        node *current = head; // начинаем с головы списка
+        Node *current = head; // начинаем с головы списка
         while (current)       // пока не достигнем конца списка
         {
             current->tovar.print_product(); // вывод инфы товара
@@ -403,7 +419,7 @@ public:
     // метод отображения списка по фильтру id
     void print_list_by_id(int id) const
     {
-        node *current = head;
+        Node *current = head;
         while (current) // пока не достигнут конец списка
         {
             if (current->tovar.get_id() == id) // проверка на соответствию с фильтром
@@ -417,7 +433,7 @@ public:
     // метод отображения списка по фильтру цены
     void print_list_by_price(int price) const
     {
-        node *current = head; // начинаем с головы списка
+        Node *current = head; // начинаем с головы списка
         while (current)       // пока не достигнем конца списка
         {
             if (current->tovar.get_price() == price) // проверка на соответствию с фильтром
@@ -431,7 +447,7 @@ public:
     // метод отображения списка по фильтру поставщика
     void print_list_by_plug(plugs plug) const
     {
-        node *current = head; // начинаем с головы списка
+        Node *current = head; // начинаем с головы списка
         while (current)       // пока не достигнем конца списка
         {
             if (current->tovar.get_plug() == plug) // проверка на соответствию с фильтром
@@ -448,12 +464,12 @@ int main()
 
     product_list pl;
 
-    pl.add_product(product(1, "Product1", 100, SLAY));
-    pl.add_product(product(2, "Product2", 200, FSTAGE));
+    pl.add_product(Product(1, "Product1", 100, SLAY));
+    pl.add_product(Product(2, "Product2", 200, FSTAGE));
     pl.print_list();
     cout << "\n";
 
-    pl.add_product(product());
+    pl.add_product(Product());
 
     pl.save_to_file("products.txt");
     pl.load_from_file("products.txt");
