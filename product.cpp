@@ -466,6 +466,7 @@ int main()
 
     pl.add_product(Product(1, "Product1", 100, SLAY));
     pl.add_product(Product(2, "Product2", 200, FSTAGE));
+    // выводим первый вариант списка
     pl.print_list();
     cout << "\n";
 
@@ -494,3 +495,6 @@ int main()
 
     return 0;
 }
+// ВСЁ
+// SLAY
+// by prod
