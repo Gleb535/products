@@ -2,7 +2,26 @@
 #include <string>
 #include <fstream>
 
-// using namespace std;
+class ProductException : public std::exception
+{
+private:
+    std::string msg;
+
+public:
+    ProductException(const std::string error) noexcept : msg(error) {}
+
+    const char *what() const noexcept override { return msg.data(); } // override контролирует синтаксис наследуемого дочерним классом виртуального метода
+
+    virtual ~ProductException() {}
+};
+
+class ProductIncorrectIdException : public ProductException
+{
+public:
+    ProductIncorrectIdException(const std::string error) noexcept : ProductException(error) {}
+
+    ~ProductIncorrectIdException() {}
+};
 
 enum plugs
 {
@@ -45,7 +64,15 @@ public:
     }
 
     // параметризованный конструктор
-    Product(int a, std::string n, int p, plugs g) : id(a), name(n), price(p), plug(g) {}
+    Product(int a, std::string n, int p, plugs g) : name(n), price(p), plug(g)
+    {
+        if (a < 0)
+            throw ProductIncorrectIdException("Constructor: Id can't be niggative");
+
+        id = a;
+
+        printf("Product with data: %d, %s, %d, %s was created!!!11\n", a, n.c_str(), p, plug_to_string(g).c_str());
+    }
 
     // конструктор копирования
     Product(const Product &other) : id(other.id), name(other.name), price(other.price), plug(other.plug) {}
@@ -463,37 +490,65 @@ public:
 
 int main()
 {
+    int user_id;
+    std::cin >> user_id;
 
-    linked_list<Product> pl;
+    try
+    {
+        Product ex{user_id, "Narkotiki", 228, plugs::BOB};
+    }
+    catch (const ProductIncorrectIdException &e)
+    {
+        std::cout << e.what() << '\n';
 
-        pl.add_product(Product(1, "Product1", 100, SLAY));
-    pl.add_product(Product(2, "Product2", 200, FSTAGE));
-    // выводим первый вариант списка
-    pl.print_list();
-    std::cout << "\n";
+        try
+        {
+            Product ex{-user_id, "Narkotiki", 228, plugs::BOB};
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+    }
+    catch (const ProductException &e)
+    {
+        std::cout << e.what() << '\n';
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << e.what() << '\n';
+    }
 
-    pl.add_product(Product());
+    // linked_list<Product> pl;
 
-    pl.save_to_file("products.txt");
-    pl.load_from_file("products.txt");
-    std::cout << "\n";
+    // pl.add_product(Product(1, "Product1", 100, SLAY));
+    // pl.add_product(Product(2, "Product2", 200, FSTAGE));
+    // // выводим первый вариант списка
+    // pl.print_list();
+    // std::cout << "\n";
 
-    pl.remove_product(1);
+    // pl.add_product(Product());
 
-    pl.print_list();
-    std::cout << "\n";
+    // pl.save_to_file("products.txt");
+    // pl.load_from_file("products.txt");
+    // std::cout << "\n";
 
-    // товары по фильтру
-    std::cout << "Products with ID = 2:" << std::endl;
-    pl.print_list_by_id(2);
-    std::cout << "\n";
+    // pl.remove_product(1);
 
-    std::cout << "Products with Price = 100:" << std::endl;
-    pl.print_list_by_price(100);
-    std::cout << "\n";
+    // pl.print_list();
+    // std::cout << "\n";
 
-    std::cout << "Products with Plug = SLAY:" << std::endl;
-    pl.print_list_by_plug(SLAY);
+    // // товары по фильтру
+    // std::cout << "Products with ID = 2:" << std::endl;
+    // pl.print_list_by_id(2);
+    // std::cout << "\n";
+
+    // std::cout << "Products with Price = 100:" << std::endl;
+    // pl.print_list_by_price(100);
+    // std::cout << "\n";
+
+    // std::cout << "Products with Plug = SLAY:" << std::endl;
+    // pl.print_list_by_plug(SLAY);
 
     return 0;
 }
