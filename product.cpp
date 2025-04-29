@@ -837,13 +837,15 @@ int main()
     linked_list<Product> pl;
 
     pl.add_product(Product(1, "Product1", 100, SLAY));
-    // pl.add_product(Dot(1, 1, 1));
+
     linked_list<Dot> dd;
     dd.add_product(Dot());
+    dd.add_product(Dot(1, 1, 1));
     dd.print_list();
     //  выводим первый вариант списка
-    pl.print_list();
+    // pl.print_list();
     std::cout << "\n";
+    pl.print_list();
 
     // pl.add_product(Product());
 
