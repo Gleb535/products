@@ -21,7 +21,7 @@ public:
     void setY(int sety) { y = sety; }
     void setZ(int setz) { z = setz; }
 
-    void printDot() const
+    void print_product() const
     {
         std::cout << "X coord: " << x << "\n"
                   << "Y coord: " << y << "\n"
@@ -625,7 +625,7 @@ public:
     }
 
     // метод добавления товара в список
-    void add_product(const Product &new_product)
+    void add_product(const Node<F> &new_product)
     {
         Node<F> *new_node = new Node<F>(new_product); // создаем новый узел, используя конструктор node
         if (!head)                                    // проверка пуст ли список (head == nullptr)
@@ -838,6 +838,9 @@ int main()
 
     pl.add_product(Product(1, "Product1", 100, SLAY));
     // pl.add_product(Dot(1, 1, 1));
+    linked_list<Dot> dd;
+    dd.add_product(Dot());
+    dd.print_list();
     //  выводим первый вариант списка
     pl.print_list();
     std::cout << "\n";
@@ -867,6 +870,3 @@ int main()
 
     return 0;
 }
-// ВСЁ
-// SLAY
-// by prod
