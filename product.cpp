@@ -1,6 +1,320 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <math.h>
+
+class Dot
+{
+protected:
+    int x, y, z;
+
+public:
+    Dot() : x(0), y(0), z(0) {}
+
+    Dot(int setx, int sety, int setz) : x(setx), y(sety), z(setz) {}
+
+    int getX() const { return x; }
+    int getY() const { return y; }
+    int getZ() const { return z; }
+
+    void setX(int setx) { x = setx; }
+    void setY(int sety) { y = sety; }
+    void setZ(int setz) { z = setz; }
+
+    void printDot() const
+    {
+        std::cout << "X coord: " << x << "\n"
+                  << "Y coord: " << y << "\n"
+                  << "Z coord: " << z << std::endl;
+    }
+};
+
+class Line : public Dot
+{
+private:
+    Dot dot2;
+    double length;
+
+public:
+    Line() : Dot(), dot2(0, 0, 0), length(0) {}
+
+    Line(int x1, int y1, int z1, int x2, int y2, int z2) : Dot(x1, y1, z1), dot2(x2, y2, z2) { updLength(); }
+
+    void updLength()
+    {
+        length = sqrt(pow(dot2.getX() - x, 2) + pow(dot2.getY() - 2, 2) + pow(dot2.getZ() - z, 2));
+    }
+
+    int getdX() const { return dot2.getX(); }
+    int getdY() const { return dot2.getY(); }
+    int getdZ() const { return dot2.getZ(); }
+
+    double getLenght() const
+    {
+        return length;
+    }
+
+    void setdX(int newX)
+    {
+        dot2.setX(newX);
+        updLength();
+    }
+
+    void setdY(int newY)
+    {
+        dot2.setY(newY);
+        updLength();
+    }
+
+    void setdZ(int newZ)
+    {
+        dot2.setZ(newZ);
+        updLength();
+    }
+};
+
+class Rectangle : public Line
+{
+protected:
+    Dot dot3, dot4;
+    double square;
+
+public:
+    Rectangle() : Line(), dot3(0, 0, 0), dot4(0, 0, 0), square(0) {}
+
+    Rectangle(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3, int x4, int y4, int z4)
+        : Line(x1, y1, z1, x2, y2, z2), dot3(x3, y3, z3), dot4(x4, y4, z4)
+    {
+        updSquared();
+    }
+
+    void updSquared()
+    {
+        // Координаты всех точек прямоугольника
+        int Ax = getX(), Ay = getY(), Az = getZ();
+        int Bx = getdX(), By = getdY(), Bz = getdZ();
+        int Cx = dot3.getX(), Cy = dot3.getY(), Cz = dot3.getZ();
+        int Dx = dot4.getX(), Dy = dot4.getY(), Dz = dot4.getZ();
+
+        // Векторы AB и BC (стороны прямоугольника)
+        int ABx = Bx - Ax, ABy = By - Ay;
+        int BCx = Cx - Bx, BCy = Cy - By;
+
+        // Проверка двух условий:
+        // 1. Все точки в одной плоскости (Z одинаковы)
+        bool isFlat = (Az == Bz) && (Bz == Cz) && (Cz == Dz);
+
+        // 2. Стороны AB и BC перпендикулярны (скалярное произведение = 0)
+        bool isPerpendicular = (ABx * BCx + ABy * BCy) == 0;
+
+        if (isFlat && isPerpendicular)
+        {
+            double lengthAB = sqrt(ABx * ABx + ABy * ABy);
+            double lengthBC = sqrt(BCx * BCx + BCy * BCy);
+            square = lengthAB * lengthBC;
+        }
+        else
+        {
+            square = -1; // значит  не прямоугольник !!!
+        }
+    }
+
+    int getSqrt() const
+    {
+        return square;
+    }
+
+    int getDot3X() const { return dot3.getX(); }
+    int getDot3Y() const { return dot3.getY(); }
+    int getDot3Z() const { return dot3.getZ(); }
+
+    int getDot4X() const { return dot4.getX(); }
+    int getDot4Y() const { return dot4.getY(); }
+    int getDot4Z() const { return dot4.getZ(); }
+
+    void setDot3X(int newX)
+    {
+        dot3.setX(newX);
+        updSquared();
+    }
+    void setDot3Y(int newY)
+    {
+        dot3.setY(newY);
+        updSquared();
+    }
+    void setDot3Z(int newZ)
+    {
+        dot3.setZ(newZ);
+        updSquared();
+    }
+
+    void setDot4X(int newX)
+    {
+        dot4.setX(newX);
+        updSquared();
+    }
+    void setDot4Y(int newY)
+    {
+        dot4.setY(newY);
+        updSquared();
+    }
+    void setDot4Z(int newZ)
+    {
+        dot4.setZ(newZ);
+        updSquared();
+    }
+};
+
+class Parall : public Rectangle
+{
+private:
+    Dot dot5, dot6, dot7, dot8;
+    double volume;
+
+public:
+    Parall() : Rectangle(), dot5(0, 0, 0), dot6(0, 0, 0), dot7(0, 0, 0), dot8(0, 0, 0), volume(0) {}
+    Parall(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3, int x4, int y4, int z4, int x5, int y5, int z5, int x6, int y6, int z6, int x7, int y7, int z7, int x8, int y8, int z8)
+        : Rectangle(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4), dot5(x5, y5, z5), dot6(x6, y6, z6), dot7(x7, y7, z7), dot8(x8, y8, z8)
+    {
+        updVolume();
+    }
+
+    double getVolume() const
+    {
+        return volume;
+    }
+
+    int getDot5X() const { return dot5.getX(); }
+    int getDot5Y() const { return dot5.getY(); }
+    int getDot5Z() const { return dot5.getZ(); }
+
+    int getDot6X() const { return dot6.getX(); }
+    int getDot6Y() const { return dot6.getY(); }
+    int getDot6Z() const { return dot6.getZ(); }
+
+    int getDot7X() const { return dot7.getX(); }
+    int getDot7Y() const { return dot7.getY(); }
+    int getDot7Z() const { return dot7.getZ(); }
+
+    int getDot8X() const { return dot8.getX(); }
+    int getDot8Y() const { return dot8.getY(); }
+    int getDot8Z() const { return dot8.getZ(); }
+
+    void setDot5X(int newX)
+    {
+        dot5.setX(newX);
+        updVolume();
+    }
+    void setDot5Y(int newY)
+    {
+        dot5.setY(newY);
+        updVolume();
+    }
+    void setDot5Z(int newZ)
+    {
+        dot5.setZ(newZ);
+        updVolume();
+    }
+
+    void setDot6X(int newX)
+    {
+        dot6.setX(newX);
+        updVolume();
+    }
+    void setDot6Y(int newY)
+    {
+        dot6.setY(newY);
+        updVolume();
+    }
+    void setDot6Z(int newZ)
+    {
+        dot6.setZ(newZ);
+        updVolume();
+    }
+
+    void setDot7X(int newX)
+    {
+        dot7.setX(newX);
+        updVolume();
+    }
+    void setDot7Y(int newY)
+    {
+        dot7.setY(newY);
+        updVolume();
+    }
+    void setDot7Z(int newZ)
+    {
+        dot7.setZ(newZ);
+        updVolume();
+    }
+
+    void setDot8X(int newX)
+    {
+        dot8.setX(newX);
+        updVolume();
+    }
+    void setDot8Y(int newY)
+    {
+        dot8.setY(newY);
+        updVolume();
+    }
+    void setDot8Z(int newZ)
+    {
+        dot8.setZ(newZ);
+        updVolume();
+    }
+
+    void updVolume()
+    {
+        // Получение координат всех 8 вершин. ABCD - вершины нижнего основания, EFGH - верхнего основания
+        int Ax = getX(), Ay = getY(), Az = getZ();
+        int Bx = getdX(), By = getdY(), Bz = getdZ();
+        int Cx = getDot3X(), Cy = getDot3Y(), Cz = getDot3Z();
+        int Dx = getDot4X(), Dy = getDot4Y(), Dz = getDot4Z();
+        int Ex = dot5.getX(), Ey = dot5.getY(), Ez = dot5.getZ();
+        int Fx = dot6.getX(), Fy = dot6.getY(), Fz = dot6.getZ();
+        int Gx = dot7.getX(), Gy = dot7.getY(), Gz = dot7.getZ();
+        int Hx = dot8.getX(), Hy = dot8.getY(), Hz = dot8.getZ();
+
+        // Точке A соответствует точка E, точке B - F, точке C - G, точке D - H
+        Rectangle base1(Ax, Ay, Az, Bx, By, Bz, Cx, Cy, Cz, Dx, Dy, Dz);
+        Rectangle base2(Ex, Ey, Ez, Fx, Fy, Fz, Gx, Gy, Gz, Hx, Hy, Hz);
+
+        if (base1.getSqrt() <= 0 || base2.getSqrt() <= 0)
+        {
+            volume = -1;
+            return;
+        }
+
+        int AEx = Ex - Ax, AEy = Ey - Ay, AEz = Ez - Az; // AE - вектор, показывающий как смещается точка A в точку E
+
+        // Проверяется, что верхнее основание (EFGH) является точной параллельной копией нижнего основания (ABCD), смещённой на вектор AE = (AEx, AEy, AEz)
+        if ((Fx - Bx) != AEx || (Fy - By) != AEy || (Fz - Bz) != AEz ||
+            (Gx - Cx) != AEx || (Gy - Cy) != AEy || (Gz - Cz) != AEz ||
+            (Hx - Dx) != AEx || (Hy - Dy) != AEy || (Hz - Dz) != AEz)
+        {
+            volume = -1; // крч не параллелепипед
+            return;
+        }
+
+        double height = sqrt(AEx * AEx + AEy * AEy + AEz * AEz);
+        volume = base1.getSqrt() * height;
+    }
+
+    void printParall() const
+    {
+        std::cout << "Dots of the parallelepiped:" << std::endl;
+        std::cout << "Dot1: " << getX() << ", " << getY() << ", " << getZ() << std::endl;
+        std::cout << "Dot2: " << getdX() << ", " << getdY() << ", " << getdZ() << std::endl;
+        std::cout << "Dot3: " << getDot3X() << ", " << getDot3Y() << ", " << getDot3Z() << std::endl;
+        std::cout << "Dot4: " << getDot4X() << ", " << getDot4Y() << ", " << getDot4Z() << std::endl;
+        std::cout << "Dot5: " << dot5.getX() << ", " << dot5.getY() << ", " << dot5.getZ() << std::endl;
+        std::cout << "Dot6: " << dot6.getX() << ", " << dot6.getY() << ", " << dot6.getZ() << std::endl;
+        std::cout << "Dot7: " << dot7.getX() << ", " << dot7.getY() << ", " << dot7.getZ() << std::endl;
+        std::cout << "Dot8: " << dot8.getX() << ", " << dot8.getY() << ", " << dot8.getZ() << std::endl;
+        std::cout << "Volume: " << volume << std::endl;
+    }
+};
 
 class ProductException : public std::exception
 {
@@ -303,6 +617,7 @@ public:
     }
 
     // перегруженный оператор вычетания для удаления товара по id
+
     linked_list &operator-(int id)
     {
         remove_product(id); // удаляем товар с указанным id из списка
@@ -495,7 +810,7 @@ int main()
 
     try
     {
-        Product ex{user_id, "Narkotiki", 228, plugs::BOB};
+        Product ex{user_id, "kotiki", 228, plugs::BOB};
     }
     catch (const ProductIncorrectIdException &e)
     {
@@ -503,7 +818,7 @@ int main()
 
         try
         {
-            Product ex{-user_id, "Narkotiki", 228, plugs::BOB};
+            Product ex{-user_id, "kotiki", 228, plugs::BOB};
         }
         catch (const std::exception &e)
         {
@@ -519,13 +834,13 @@ int main()
         std::cout << e.what() << '\n';
     }
 
-    // linked_list<Product> pl;
+    linked_list<Product> pl;
 
-    // pl.add_product(Product(1, "Product1", 100, SLAY));
-    // pl.add_product(Product(2, "Product2", 200, FSTAGE));
-    // // выводим первый вариант списка
-    // pl.print_list();
-    // std::cout << "\n";
+    pl.add_product(Product(1, "Product1", 100, SLAY));
+    // pl.add_product(Dot(1, 1, 1));
+    //  выводим первый вариант списка
+    pl.print_list();
+    std::cout << "\n";
 
     // pl.add_product(Product());
 
