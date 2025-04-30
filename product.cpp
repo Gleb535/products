@@ -71,6 +71,19 @@ public:
         dot2.setZ(newZ);
         updLength();
     }
+
+    void print_product() const
+    {
+        std::cout << "X_1 coord: " << getX() << "\n"
+                  << "Y_1 coord: " << getY() << "\n"
+                  << "Z_1 coord: " << getZ() << "\n"
+
+                  << "X_2 coord: " << dot2.getX() << "\n"
+                  << "Y_2 coord: " << dot2.getY() << "\n"
+                  << "Z_2 coord: " << dot2.getZ() << "\n"
+
+                  << "Length: " << getLenght() << std::endl;
+    }
 };
 
 class Rectangle : public Line
@@ -162,6 +175,19 @@ public:
     {
         dot4.setZ(newZ);
         updSquared();
+    }
+
+    void print_product() const
+    {
+        std::cout << "X_4 coord: " << dot4.getX() << "\n"
+                  << "Y_4 coord: " << dot4.getY() << "\n"
+                  << "Z_4 coord: " << dot4.getZ() << "\n"
+
+                  << "X_3 coord: " << dot3.getX() << "\n"
+                  << "Y_3 coord: " << dot3.getY() << "\n"
+                  << "Z_3 coord: " << dot3.getZ() << "\n"
+
+                  << "sqrt: " << getSqrt() << std::endl;
     }
 };
 
@@ -301,7 +327,7 @@ public:
         volume = base1.getSqrt() * height;
     }
 
-    void printParall() const
+    void print_product() const
     {
         std::cout << "Dots of the parallelepiped:" << std::endl;
         std::cout << "Dot1: " << getX() << ", " << getY() << ", " << getZ() << std::endl;
@@ -839,13 +865,18 @@ int main()
     pl.add_product(Product(1, "Product1", 100, SLAY));
 
     linked_list<Dot> dd;
-    dd.add_product(Dot());
-    dd.add_product(Dot(1, 1, 1));
-    dd.print_list();
-    //  выводим первый вариант списка
-    // pl.print_list();
+    // dd.add_product(Dot());
+    // dd.add_product(Dot(1, 1, 1));
+    // dd.print_list();
+    //   выводим первый вариант списка
+    //  pl.print_list();
     std::cout << "\n";
-    pl.print_list();
+    // pl.print_list();
+
+    linked_list<Parall> l;
+    l.add_product(Parall());
+    l.add_product(Parall());
+    l.print_list();
 
     // pl.add_product(Product());
 
