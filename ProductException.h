@@ -57,6 +57,16 @@ public:
     ~ProductIncorrectPlugException() {}
 };
 
+// файловая ошибка
+
+class FileException : public ProductException
+{
+public:
+    FileException(const std::string error) noexcept : ProductException(error) { std::cout << " file " << std::endl; }
+
+    ~FileException() {}
+};
+
 enum plugs
 {
     SLAY,

@@ -73,6 +73,8 @@ int main()
     dd.add_product(Dot());
     dd.add_product(Dot(1, 1, 1));
     // dd.print_list();
+    dd.save_to_file("file.txt");
+    dd.load_from_file("file.txt");
 
     std::cout << "\n";
     std::cout << "\n";

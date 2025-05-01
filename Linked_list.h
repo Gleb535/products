@@ -233,8 +233,9 @@ public:
     void save_to_file(const std::string &filename)
     {
         std::ofstream file(filename); // открываем файл для записи
-        Node<F> *current = head;      // начинаем с головы списка
-        while (current)               // пока не достигнем конца списка
+
+        Node<F> *current = head; // начинаем с головы списка
+        while (current)          // пока не достигнем конца списка
         {
             int id, price;
             std::string name;
@@ -250,7 +251,8 @@ public:
     void load_from_file(const std::string &filename)
     {
         std::ifstream file(filename); // открываем файл для чтения
-        while (!file.eof())           // продолжаем до конца файла
+
+        while (!file.eof()) // продолжаем до конца файла
         {
             int id, price;
             std::string name;
