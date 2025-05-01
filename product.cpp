@@ -1318,7 +1318,7 @@ int main()
     dd.add_product(Dot(1, 1, 1));
     // dd.save_to_file("products.txt");
     // dd.load_from_file("products.txt");
-    dd.print_list();
+    // dd.print_list();
     //   выводим первый вариант списка
     //  pl.print_list();
     std::cout << "\n";
@@ -1326,16 +1326,22 @@ int main()
     std::cout << "\n";
     // pl.print_list();
 
-    linked_list<Line> lol;
-    lol.add_product(Line());
-    lol.add_product(Line(1, 1, 1, 1, 1, 1));
-    lol.print_list();
+    linked_list<Rectangle> rr;
+    rr.add_product(Rectangle());
+    rr.add_product(Rectangle());
+    rr.print_list();
 
-    linked_list<Parall> l;
-    l.add_product(Parall());
-    l.add_product(Parall());
-    // l.print_list();
+    /*
+        linked_list<Line> lol;
+        lol.add_product(Line());
+        lol.add_product(Line(1, 1, 1, 1, 1, 1));
+        lol.print_list();
 
+        linked_list<Parall> l;
+        l.add_product(Parall());
+        l.add_product(Parall());
+        // l.print_list();
+    */
     // pl.add_product(Product());
 
     // pl.save_to_file("products.txt");
