@@ -48,7 +48,7 @@ int main()
     dd.add_product(Dot(1, 1, 1));
     // dd.save_to_file("products.txt");
     // dd.load_from_file("products.txt");
-    dd.print_list();
+    // dd.print_list();
     //   выводим первый вариант списка
     //  pl.print_list();
     std::cout << "\n";
@@ -59,12 +59,14 @@ int main()
     linked_list<Line> lol;
     lol.add_product(Line());
     lol.add_product(Line(1, 1, 1, 1, 1, 1));
-    lol.print_list();
+    // lol.print_list();
 
     linked_list<Parall> l;
     l.add_product(Parall());
     l.add_product(Parall());
-    // l.print_list();
+    l.save_to_file("pa.txt");
+    l.load_from_file("pa.txt");
+    l.print_list();
 
     // pl.add_product(Product());
 

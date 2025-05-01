@@ -6,6 +6,7 @@
 #include "Linked_list_dot.h"
 #include "Linked_list_line.h"
 #include "Linked_list_rectangle.h"
+#include "Linked_list_parall.h"
 #include "Parall.h"
 
 #endif
