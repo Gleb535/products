@@ -38,6 +38,17 @@ int main()
             }
         }
     }
+    catch (const ProductIncorrectPriceException &e)
+    {
+        try
+        {
+            Product ex{user_id, "kotiki", -user_price, plugs::BOB};
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << e.what() << '\n';
+        }
+    }
     catch (const ProductException &e)
     {
         std::cout << e.what() << '\n';
