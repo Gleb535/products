@@ -55,6 +55,7 @@ int main()
     std::cout << "\n";
     std::cout << "\n";
     // pl.print_list();
+    // ff
 
     linked_list<Line> lol;
     lol.add_product(Line());
