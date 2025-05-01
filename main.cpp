@@ -7,13 +7,14 @@
 
 int main()
 {
-    /*
-    int user_id;
-    std::cin >> user_id;
+
+    int user_id = 1;
+    // std::cin >> user_id;
+    int user_price = -2;
 
     try
     {
-        Product ex{user_id, "kotiki", 228, plugs::BOB};
+        Product ex{user_id, "kotiki", user_price, plugs::BOB};
     }
     catch (const ProductIncorrectIdException &e)
     {
@@ -21,11 +22,20 @@ int main()
 
         try
         {
-            Product ex{-user_id, "kotiki", 228, plugs::BOB};
+            Product ex{-user_id, "kotiki", user_price, plugs::BOB};
         }
-        catch (const std::exception &e)
+        catch (const ProductIncorrectPriceException &e)
         {
-            std::cerr << e.what() << '\n';
+            std::cout << e.what() << '\n';
+
+            try
+            {
+                Product ex{-user_id, "kotiki", -user_price, plugs::BOB};
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
         }
     }
     catch (const ProductException &e)
@@ -34,45 +44,50 @@ int main()
     }
     catch (const std::exception &e)
     {
-        std::cout << e.what() << '\n';
+        std::cerr << e.what() << '\n';
     }
-
-    */
 
     linked_list<Product> pl;
 
-    pl.add_product(Product(1, "Product1", 100, SLAY));
+    pl.add_product(Product(1, "1", 100, SLAY));
+    pl.print_list();
+
+    /*
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+*/
 
     linked_list<Dot> dd;
     dd.add_product(Dot());
     dd.add_product(Dot(1, 1, 1));
-    // dd.save_to_file("products.txt");
-    // dd.load_from_file("products.txt");
     // dd.print_list();
-    //   выводим первый вариант списка
-    //  pl.print_list();
+
     std::cout << "\n";
     std::cout << "\n";
     std::cout << "\n";
-    // pl.print_list();
-    // ff
+
+    // std::string x = "bb ";
+    // std::cout << typeid(x).name() << std::endl;
 
     linked_list<Line> lol;
     lol.add_product(Line());
     lol.add_product(Line(1, 1, 1, 1, 1, 1));
     // lol.print_list();
 
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+
     linked_list<Parall> l;
     l.add_product(Parall());
-    l.add_product(Parall());
-    l.save_to_file("pa.txt");
-    l.load_from_file("pa.txt");
-    l.print_list();
+    // l.print_list();
 
-    // pl.add_product(Product());
+    // NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE
+    // NSt3__112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEE
 
-    // pl.save_to_file("products.txt");
-    // pl.load_from_file("products.txt");
+    // std::cout << "\n";
+    // std::cout << "\n";
     // std::cout << "\n";
 
     // pl.remove_product(1);

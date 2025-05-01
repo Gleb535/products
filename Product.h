@@ -34,19 +34,21 @@ class Product
 
 public:
     // конструктор без параметров (по умолчанию)
-    Product() : id(0), name("noname"), price(0), plug(SLAY)
-    {
-    }
+    Product() : id(0), name("noname"), price(0), plug(SLAY) {}
 
     // параметризованный конструктор
-    Product(int a, std::string n, int p, plugs g) : name(n), price(p), plug(g)
+    Product(int a, std::string n, int p, plugs g) : name(n), plug(g)
     {
         if (a < 0)
             throw ProductIncorrectIdException("Constructor: Id can't be niggative");
 
-        id = a;
+        if (p < 0)
+            throw ProductIncorrectPriceException("Constructor: price can't be niggative");
 
-        printf("Product with data: %d, %s, %d, %s was created!!!11\n", a, n.c_str(), p, plug_to_string(g).c_str());
+        id = a;
+        price = p;
+
+        printf("Product with data: %d, %s, %d, %s was created!\n", a, n.c_str(), p, plug_to_string(g).c_str());
     }
 
     // конструктор копирования
