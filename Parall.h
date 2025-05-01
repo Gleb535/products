@@ -152,6 +152,51 @@ public:
         std::cout << "Dot8: " << dot8.getX() << ", " << dot8.getY() << ", " << dot8.getZ() << std::endl;
         std::cout << "Volume: " << volume << std::endl;
     }
+
+    void get_product(int &a1, int &b1, int &c1,
+                     int &a2, int &b2, int &c2,
+                     int &a3, int &b3, int &c3,
+                     int &a4, int &b4, int &c4,
+
+                     int &a5, int &b5, int &c5,
+                     int &a6, int &b6, int &c6,
+                     int &a7, int &b7, int &c7,
+                     int &a8, int &b8, int &c8, double &v)
+    {
+        a1 = getX();
+        b1 = getY();
+        c1 = getZ();
+
+        a2 = getdX();
+        b2 = getdY();
+        c2 = getdZ();
+
+        a3 = dot3.getX();
+        b3 = dot3.getY();
+        c3 = dot3.getZ();
+
+        a4 = dot4.getX();
+        b4 = dot4.getY();
+        c4 = dot4.getZ();
+
+        a5 = dot5.getX();
+        b5 = dot5.getY();
+        c5 = dot5.getZ();
+
+        a6 = dot6.getX();
+        b6 = dot6.getY();
+        c6 = dot6.getZ();
+
+        a7 = dot7.getX();
+        b7 = dot7.getY();
+        c7 = dot7.getZ();
+
+        a8 = dot8.getX();
+        b8 = dot8.getY();
+        c8 = dot8.getZ();
+
+        v = getVolume();
+    }
 };
 
 #endif
