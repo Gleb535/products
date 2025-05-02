@@ -104,7 +104,7 @@ public:
 
     void updVolume()
     {
-        // Получение координат всех 8 вершин. ABCD - вершины нижнего основания, EFGH - верхнего основания
+        // получаем координат всех 8 вершин. ABCD - вершины нижнего основания, EFGH - верхнего основания
         int Ax = getX(), Ay = getY(), Az = getZ();
         int Bx = getdX(), By = getdY(), Bz = getdZ();
         int Cx = getDot3X(), Cy = getDot3Y(), Cz = getDot3Z();
@@ -126,7 +126,7 @@ public:
 
         int AEx = Ex - Ax, AEy = Ey - Ay, AEz = Ez - Az; // AE - вектор, показывающий как смещается точка A в точку E
 
-        // Проверяется, что верхнее основание (EFGH) является точной параллельной копией нижнего основания (ABCD), смещённой на вектор AE = (AEx, AEy, AEz)
+        // проверяем что верхнее основание (EFGH) является точной параллельной копией нижнего основания (ABCD), смещённой на вектор AE = (AEx, AEy, AEz)
         if ((Fx - Bx) != AEx || (Fy - By) != AEy || (Fz - Bz) != AEz ||
             (Gx - Cx) != AEx || (Gy - Cy) != AEy || (Gz - Cz) != AEz ||
             (Hx - Dx) != AEx || (Hy - Dy) != AEy || (Hz - Dz) != AEz)

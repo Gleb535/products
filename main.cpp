@@ -8,7 +8,7 @@
 int main()
 {
 
-    int user_id = 1;
+    int user_id = 'a';
     // std::cin >> user_id;
     int user_price = -2;
 
